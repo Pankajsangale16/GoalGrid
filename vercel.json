@@ -5,12 +5,12 @@
       "src": "taskmanager/wsgi.py",
       "use": "@vercel/python",
       "config": {
-        "maxLambdaSize": "50mb",
+        "maxLambdaSize": "15mb",
         "pythonRuntime": "python3.9"
       }
     },
     {
-      "src": "staticfiles/**",
+      "src": "static/**",
       "use": "@vercel/static"
     }
   ],
@@ -18,10 +18,6 @@
     {
       "src": "/static/(.*)",
       "dest": "/static/$1"
-    },
-    {
-      "src": "/media/(.*)",
-      "dest": "/media/$1"
     },
     {
       "src": "/(.*)",

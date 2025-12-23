@@ -25,35 +25,28 @@ wheels/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-media/
-staticfiles/
+/media
+/staticfiles
 
-# Environment variables
-.env
-.venv
-env/
+# Virtual Environment
 venv/
+env/
 ENV/
+.venv
 
 # IDE
-.idea/
 .vscode/
+.idea/
 *.swp
 *.swo
 *~
 
-# OS generated files
+# OS
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
 
-# Local development
-*.sqlite3
-*.sqlite3-*
+# Environment variables
+.env
+.env.local
 
-# Vercel
-.vercelenv.local
+
