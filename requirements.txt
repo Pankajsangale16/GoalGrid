@@ -1,0 +1,13 @@
+# Django Web Framework
+Django>=4.2.7,<5.0
+
+# MySQL Database Support (Optional - for MySQL database)
+# Uncomment the following if you want to use MySQL instead of SQLite:
+# PyMySQL>=1.1.0
+# mysql-connector-python>=8.2.0
+
+# Image Processing (if needed for future features)
+Pillow>=10.0.0
+
+# Note: SQLite is included with Python and Django by default
+# The application works with SQLite out of the box without additional packages

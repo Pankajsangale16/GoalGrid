@@ -1,0 +1,181 @@
+{% extends 'tasks/base.html' %}
+
+{% load static %}
+{% load socialaccount %}
+
+{% block extra_head %}
+<style>
+    /* Smooth transitions */
+    .btn-google {
+        transition: all 0.3s ease;
+        transform: translateY(0);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-google:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    .btn-google:active {
+        transform: translateY(0);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Loading animation */
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .loading-spinner {
+        display: none;
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 1s ease-in-out infinite;
+        margin-right: 8px;
+    }
+    
+    .btn-google.loading .loading-spinner {
+        display: inline-block;
+    }
+    
+    .btn-google.loading span:not(.loading-spinner) {
+        display: none;
+    }
+</style>
+{% endblock %}
+
+{% block title %}System Access | Client Task Master{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <h1 class="login-title">GoalGrid</h1>
+            <p class="login-subtitle">Your Goal Tracking System</p>
+        </div>
+        
+        {% if messages %}
+            <div class="login-messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <form method="post" class="login-form">
+            {% csrf_token %}
+            
+            <div class="form-group-floating">
+                <input type="text" 
+                       id="email" 
+                       name="email" 
+                       class="form-input-floating" 
+                       placeholder=" "
+                       autocomplete="email"
+                       required>
+                <label for="email" class="form-label-floating">
+                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    Email or Username
+                </label>
+            </div>
+            
+            <div class="form-group-floating">
+                <input type="password" 
+                       id="password" 
+                       name="password" 
+                       class="form-input-floating" 
+                       placeholder=" "
+                       autocomplete="current-password"
+                       required>
+                <label for="password" class="form-label-floating">
+                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                    Password
+                </label>
+            </div>
+            
+            <div class="form-options">
+                <label class="checkbox-remember">
+                    <input type="checkbox" name="remember_me" class="form-checkbox">
+                    <span>Remember Me</span>
+                </label>
+                <a href="{% url 'forgot_password' %}" class="forgot-password">Forgot Password?</a>
+            </div>
+            
+            <button type="submit" class="btn-login">
+                <span>Sign In</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+            </button>
+            
+            <div class="login-divider">
+                <span>or</span>
+            </div>
+            
+            <a href="{% provider_login_url 'google' process='login' %}" 
+               class="btn-google" 
+               id="google-login-btn"
+               style="display: flex; align-items: center; justify-content: center; gap: 10px; 
+                      text-decoration: none; padding: 10px 20px; border-radius: 4px;
+                      background: #4285F4; color: white; font-weight: 500;
+                      border: 1px solid #3367D6;">
+                <div class="loading-spinner"></div>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink: 0;">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="white"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+                <span>Sign in with Google</span>
+            </a>
+            
+            <script>
+            // Add loading state to Google login button
+            document.getElementById('google-login-btn').addEventListener('click', function(e) {
+                this.classList.add('loading');
+                // Optional: Add a small delay to ensure the loading state is visible
+                setTimeout(() => {
+                    if (!this.classList.contains('loading')) {
+                        this.classList.add('loading');
+                    }
+                }, 100);
+            });
+            
+            // Handle page visibility changes (in case of popup blockers)
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden) {
+                    const btn = document.getElementById('google-login-btn');
+                    if (btn) btn.classList.remove('loading');
+                }
+            });
+            </script>
+            
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger mt-3">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <div class="login-footer">
+                <p>Don't have an account? <a href="{% url 'register' %}" class="register-link">Sign Up</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
