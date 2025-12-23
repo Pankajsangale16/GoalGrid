@@ -111,15 +111,18 @@ WSGI_APPLICATION = 'taskmanager.wsgi.application'
 #     }
 # }
 
-# Database configuration
+# Database configuration for Neon PostgreSQL
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('POSTGRES_DATABASE', 'taskmanager'),
-        'USER': os.getenv('POSTGRES_USER', 'postgres'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', ''),
-        'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
+        'USER': os.getenv('POSTGRES_USER'),  # Required for Neon
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),  # Required for Neon
+        'HOST': os.getenv('POSTGRES_HOST'),  # Your Neon host
         'PORT': os.getenv('POSTGRES_PORT', '5432'),
+        'OPTIONS': {
+            'sslmode': 'require',  # Neon requires SSL
+        },
     }
 }
 
