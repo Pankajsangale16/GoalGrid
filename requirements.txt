@@ -1,6 +1,12 @@
 # Django Web Framework
 Django>=4.2.7,<5.0
 
+# Django AllAuth for authentication
+django-allauth>=0.57.0
+
+# Environment variables
+python-dotenv>=1.0.0
+
 # MySQL Database Support (Optional - for MySQL database)
 # Uncomment the following if you want to use MySQL instead of SQLite:
 # PyMySQL>=1.1.0
